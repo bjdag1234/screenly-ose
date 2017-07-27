@@ -1,11 +1,5 @@
 #!/bin/bash -e
 
-# Make sure the command is launched interactive.
-if ! [ -t 0  ]; then
-  echo -e "Detected old installation command. Please use:\n$ bash <(curl -sL https://www.screenlyapp.com/install-ose.sh)"
-  exit 1
-fi
-
 # Set color of logo
 tput setaf 4
 
@@ -54,15 +48,15 @@ if [ ! -f /etc/locale.gen ]; then
 fi
 
 
-sudo sed -i 's/apt.screenlyapp.com/archive.raspbian.org/g' /etc/apt/sources.list
+#sudo sed -i 's/apt.screenlyapp.com/archive.raspbian.org/g' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get purge -y python-setuptools python-pip python-pyasn1
 sudo apt-get install -y python-dev git-core libffi-dev libssl-dev
 curl -s https://bootstrap.pypa.io/get-pip.py | sudo python
 sudo pip install ansible==2.1.0.0
 
-ansible localhost -m git -a "repo=${1:-https://github.com/screenly/screenly-ose.git} dest=/home/pi/screenly version=$BRANCH"
-cd /home/pi/screenly/ansible
+ansible localhost -m git -a "repo=${1:-https://github.com/bjdag1234/screenly-ose.git} dest=/home/admin/screenly version=$BRANCH"
+cd /home/admin/screenly/ansible
 
 ansible-playbook site.yml $EXTRA_ARGS
 
